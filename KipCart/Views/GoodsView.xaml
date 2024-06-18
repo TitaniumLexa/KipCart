@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Label Content="Товары"></Label>
+            <Button Content="Справочник" Background="#FF091DBF" Command="{Binding OpenCatalogWindowCommand}"/>
+        </StackPanel>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ListBox Grid.Row="0" ItemsSource="{Binding FilteredView}" SelectedItem="{Binding SelectedGood}" HorizontalContentAlignment="Stretch" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="Black" Margin="5,2" MouseMove="ListElement_MouseMove">
+                                <TextBlock Text="{Binding Name}" FontSize="16"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Grid.Row="1" HorizontalAlignment="Right" Content="Добавить в покупку" Command="{Binding AddToPurchaseCommand}"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
