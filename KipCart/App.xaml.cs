@@ -1,5 +1,5 @@
-﻿using Accessibility;
-using KipCart.Database;
+﻿using KipCart.Database;
+using KipCart.Services;
 using KipCart.ViewModels;
 using KipCart.Views;
 using Microsoft.EntityFrameworkCore;
@@ -21,20 +21,15 @@ namespace KipCart
 
         public App()
         {
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+            _host = Host.CreateApplicationBuilder()
+                .RegisterDb()
+                .RegisterServices()
+                .RegisterViewModels()
+                .RegisterViews()
+                .Build();
 
-            string connectionString = builder.Configuration.GetConnectionString("MySQL") ?? throw new ArgumentException("Не определена строка подключения БД");
+            _serviceProvider = _host.Services;
 
-            builder.Services.AddDbContext<KipCartContext>(options =>
-            {
-                options.UseMySQL(connectionString);
-            });
-
-            builder.RegisterViewModels();
-            builder.RegisterViews();
-
-            _host = builder.Build();
-            _serviceProvider = _host.Services;                
             _host.StartAsync();
         }
 
@@ -53,11 +48,12 @@ namespace KipCart
         }
     }
 
-    public static class Services
+    public static class ServicesRegister
     {
         public static HostApplicationBuilder RegisterViewModels(this HostApplicationBuilder builder)
         {
             builder.Services.AddTransient<MainWindowViewModel>();
+            builder.Services.AddTransient<GoodsViewModel>();
 
             return builder;
         }
@@ -69,6 +65,25 @@ namespace KipCart
             builder.Services.AddTransient<PurchaseHistoryView>();
 
             builder.Services.AddSingleton<MainWindow>();
+
+            return builder;
+        }
+
+        public static HostApplicationBuilder RegisterServices(this HostApplicationBuilder builder)
+        {
+            builder.Services.AddSingleton<IMessagesService, MessagesService>();
+
+            return builder;
+        }
+
+        public static HostApplicationBuilder RegisterDb(this HostApplicationBuilder builder)
+        {
+            string connectionString = builder.Configuration.GetConnectionString("MySQL") ?? throw new ArgumentException("Не определена строка подключения БД");
+
+            builder.Services.AddDbContext<KipCartContext>(options =>
+            {
+                options.UseMySQL(connectionString);
+            });
 
             return builder;
         }
