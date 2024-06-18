@@ -52,20 +52,21 @@ namespace KipCart
     {
         public static HostApplicationBuilder RegisterViewModels(this HostApplicationBuilder builder)
         {
-            builder.Services.AddTransient<MainWindowViewModel>();
-            builder.Services.AddTransient<GoodsViewModel>();
-            builder.Services.AddTransient<CatalogWindowViewModel>();
+            builder.Services.AddTransient<MainWindowViewModel>()
+                .AddTransient<GoodsViewModel>()
+                .AddTransient<CatalogWindowViewModel>()
+                .AddTransient<PurchaseViewModel>();
 
             return builder;
         }
 
         public static HostApplicationBuilder RegisterViews(this HostApplicationBuilder builder)
         {
-            builder.Services.AddTransient<GoodsView>();
-            builder.Services.AddTransient<PurchaseView>();
-            builder.Services.AddTransient<PurchaseHistoryView>();
+            builder.Services.AddTransient<GoodsView>()
+                .AddTransient<PurchaseView>()
+                .AddTransient<PurchaseHistoryView>()
 
-            builder.Services.AddSingleton<MainWindow>();
+                .AddSingleton<MainWindow>();
 
             return builder;
         }

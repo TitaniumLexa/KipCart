@@ -7,6 +7,59 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" HorizontalAlignment="Center" Content="Покупка"/>
+
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>                    
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">
+                    <Label Content="Дата"/>
+                    <DatePicker SelectedDate="{Binding DateInput, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding PurchaseGoods}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True" Drop="ListBox_Drop">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1" BorderBrush="Black" Margin="5,2">
+                                <WrapPanel>
+                                    <Label Content="{Binding Good.Name}"/>
+
+                                    <TextBox Text="{Binding Amount}"/>
+                                    <Label Content="шт"/>
+
+                                    <Label Content="цена"/>
+                                    <TextBox Text="{Binding Price}"/>
+                                    <Label Content="р"/>
+
+                                    <Label Content="сумма"/>
+                                    <Label Content="{Binding TotalPrice}"/>
+                                    <Label Content="р"/>
+                                </WrapPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Сбросить" Command="{Binding ResetCommand}"/>
+                    <Button Grid.Column="1" Content="Сохранить" Command="{Binding SaveCommand}"/>
+                </Grid>                
+            </Grid>
+        </Border>
             
     </Grid>
 </UserControl>

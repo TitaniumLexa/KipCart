@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KipCart.Database.Entities;
+using KipCart.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace KipCart.Views
 {
@@ -20,9 +10,22 @@ namespace KipCart.Views
     /// </summary>
     public partial class PurchaseView : UserControl
     {
-        public PurchaseView()
+        public PurchaseView(PurchaseViewModel purchaseViewModel)
         {
+            DataContext = purchaseViewModel;
             InitializeComponent();
+        }
+
+        private void ListBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(nameof(Good)))
+            {
+                Good? good = e.Data.GetData(nameof(Good)) as Good;
+                if (good is not null && DataContext is PurchaseViewModel context)
+                {
+                    context.AddToPurchase(good);
+                }
+            }
         }
     }
 }
