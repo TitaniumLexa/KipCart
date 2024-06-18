@@ -1,15 +1,11 @@
 ﻿using KipCart.Database;
 using KipCart.Database.Entities;
 using KipCart.Services;
+using KipCart.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -19,6 +15,7 @@ namespace KipCart.ViewModels
     {
         private readonly KipCartContext _context;
         private readonly IMessagesService _messagesService;
+        private CatalogWindow _catalogWindow;
 
         public ObservableCollection<Good> Goods { get; set; }
         public ICollectionView FilteredView { get; set; }
@@ -73,7 +70,15 @@ namespace KipCart.ViewModels
         }
         private void OpenCatalogWindow(object? parameter)
         {
-            throw new NotImplementedException();
+            _catalogWindow ??= new CatalogWindow(new CatalogWindowViewModel(_context));
+            _catalogWindow.Closed += _catalogWindow_Closed;
+            _catalogWindow.Show();
+        }
+
+        private void _catalogWindow_Closed(object? sender, EventArgs e)
+        {
+            _catalogWindow.Closed -= _catalogWindow_Closed;
+            _catalogWindow = null;
         }
     }
 }

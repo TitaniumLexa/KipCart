@@ -54,6 +54,7 @@ namespace KipCart
         {
             builder.Services.AddTransient<MainWindowViewModel>();
             builder.Services.AddTransient<GoodsViewModel>();
+            builder.Services.AddTransient<CatalogWindowViewModel>();
 
             return builder;
         }
