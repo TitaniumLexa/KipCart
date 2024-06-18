@@ -27,7 +27,7 @@
                     <DatePicker SelectedDate="{Binding DateInput, Mode=TwoWay}"/>
                 </StackPanel>
 
-                <ListBox Grid.Row="1" ItemsSource="{Binding PurchaseGoods}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True" Drop="ListBox_Drop">
+                <ListBox Grid.Row="1" ItemsSource="{Binding PurchaseGoods}" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True" Drop="ListBox_Drop" BorderThickness="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderThickness="1" BorderBrush="Black" Margin="5,2">

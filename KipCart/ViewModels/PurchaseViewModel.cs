@@ -128,16 +128,8 @@ namespace KipCart.ViewModels
                 _context.Entry(_purchase).Reload();
                 foreach (var purchaseGood in PurchaseGoods)
                 {
-                    if (_context.Entry(purchaseGood).State == Microsoft.EntityFrameworkCore.EntityState.Added)
-                    {
-                        
-                    }
-                    else
-                    {
-                        _context.Entry(purchaseGood).Reload();
-                    }
-
-                }
+                    _context.Entry(purchaseGood).Reload();
+                }                
             }
         }
 
