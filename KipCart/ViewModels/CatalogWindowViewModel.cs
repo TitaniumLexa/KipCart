@@ -1,7 +1,5 @@
-﻿using KipCart.Database;
-using KipCart.Database.Entities;
+﻿using KipCart.Models;
 using KipCart.Services;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,7 +10,7 @@ namespace KipCart.ViewModels
 {
     public class CatalogWindowViewModel: INotifyPropertyChanged
     {
-        private readonly KipCartContext _context;
+        private readonly GoodsModel _goodsModel;
 
         private string _goodNameInput;
         public string GoodNameInput
@@ -49,17 +47,16 @@ namespace KipCart.ViewModels
             }
         }
 
-        public ObservableCollection<Good> Goods { get; set; }
+        public ObservableCollection<GoodModel> Goods { get; set; }
 
-        public CatalogWindowViewModel(KipCartContext context)
+        public CatalogWindowViewModel(GoodsModel goodsModel)
         {
-            _context = context;
+            _goodsModel = goodsModel;
 
             _addGoodCommand = new RelayCommand(AddGood);
             _backCommand = new RelayCommand(Save);
 
-            _context.Goods.Load();
-            Goods = _context.Goods.Local.ToObservableCollection();
+            Goods = _goodsModel.GetGoodModels();
 
         }
 
@@ -69,21 +66,14 @@ namespace KipCart.ViewModels
             {
                 if (Goods.FirstOrDefault((good) => good.Name == GoodNameInput) is null)
                 {
-                    Good good = new Good()
-                    {
-                        Name = GoodNameInput,
-                        IsShow = true
-                    };
-                    Goods.Add(good);
-
-                    _context.SaveChanges();
+                    _goodsModel.AddNewGood(GoodNameInput);
                 }
             }
         }
 
         public void Save(object? parameter)
         {
-            _context.SaveChanges();
+            _goodsModel.Save();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

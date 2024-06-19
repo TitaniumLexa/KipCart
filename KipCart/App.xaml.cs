@@ -1,4 +1,5 @@
 ﻿using KipCart.Database;
+using KipCart.Models;
 using KipCart.Services;
 using KipCart.ViewModels;
 using KipCart.Views;
@@ -24,8 +25,9 @@ namespace KipCart
             _host = Host.CreateApplicationBuilder()
                 .RegisterDb()
                 .RegisterServices()
+                .RegisterModels()
                 .RegisterViewModels()
-                .RegisterViews()
+                .RegisterViews()                
                 .Build();
 
             _serviceProvider = _host.Services;
@@ -50,6 +52,13 @@ namespace KipCart
 
     public static class ServicesRegister
     {
+        public static HostApplicationBuilder RegisterModels(this HostApplicationBuilder builder)
+        {
+            builder.Services.AddTransient<GoodsModel>();
+
+            return builder;
+        }
+
         public static HostApplicationBuilder RegisterViewModels(this HostApplicationBuilder builder)
         {
             builder.Services.AddTransient<MainWindowViewModel>()
