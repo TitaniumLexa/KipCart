@@ -65,7 +65,7 @@ namespace KipCart.ViewModels
 
         public void AddGood(object? parameter)
         {
-            if (GoodNameInput.Length > 0)
+            if (GoodNameInput?.Length > 0)
             {
                 if (Goods.FirstOrDefault((good) => good.Name == GoodNameInput) is null)
                 {
