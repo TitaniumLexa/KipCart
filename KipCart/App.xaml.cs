@@ -97,6 +97,11 @@ namespace KipCart
                 options.UseMySQL(connectionString);
             });
 
+            builder.Services.AddDbContextFactory<KipCartContext>(options =>
+            {
+                options.UseMySQL(connectionString);
+            });
+
             return builder;
         }
     }
